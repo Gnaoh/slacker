@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc overview
- * @name angularfireSlackApp
+ * @name slackerApp
  * @description
- * # angularfireSlackApp
+ * # slackerApp
  *
  * Main module of the application.
  */
 angular
-  .module('angularfireSlackApp', [
+  .module('slackerApp', [
     'firebase',
     'angular-md5',
     'ui.router'
@@ -22,13 +22,15 @@ angular
       })
       .state('login', {
         url: '/login',
+        controller: 'AuthCtrl as authCtrl'
         templateUrl: 'auth/login.html'
       })
       .state('register', {
         url: '/register',
+        controller: 'AuthCtrl as authCtrl'
         templateUrl: 'auth/register.html'
       });
 
     $urlRouterProvider.otherwise('/');
   })
-  .constant('FirebaseUrl', 'https://slack.firebaseio.com/');
+  .constant('FirebaseUrl', 'https://slackerapp.firebaseio.com/');
