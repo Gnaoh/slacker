@@ -10,8 +10,12 @@ angular.module('slackerApp')// this factory will provide us with the ability to 
 			getDisplayName: function(uid){ //getDisplayName(uid) is a helper function that returns a user's displayName when given a uid
 				return users.$getRecord(uid).displayName;
 			},
+			getGravatar: function(uid){ //return the url to a user's gravatar image when provided a uid.
+				return '//www.gravatar.com/avatar/' + users.$getRecord(uid).emailHash;
+			},
 			all: users
 		};
+
 
 		return Users;
 	});

@@ -50,13 +50,15 @@ angular
       })
       .state('profile', {
         url: '/profile',
+        controller: 'ProfileCtrl as profileCtrl',
+        templateUrl: 'users/profile.html',
         resolve: {
           auth: function($state, Users, Auth){
             return Auth.$requireAuth().catch(function(){
               $state.go('home'); //The .catch function is a shorthand for handling promises if we don't want to provide a success handler. 
             });
           },
-          profile: function(Users, Auth){
+          profile: function(Users, Auth){ //The profile dependency also ensures authentication, but resolves to the user's profile using the getProfile function we created in our Users service. 
             return Auth.$requireAuth().then(function(auth){
               return Users.getProfile(auth.uid).$loaded();
             });
