@@ -13,4 +13,12 @@ angular.module('slackerChat')
     channelsCtrl.newChannel = {
     	name: ''
     };
+
+		channelsCtrl.createChannel = function(){
+		  channelsCtrl.channels.$add(channelsCtrl.newChannel).then(function(){ //The $add function on the channels $firebaseArray provides similar functionality to the .push() function on a Javascript Array
+		    channelsCtrl.newChannel = {
+		      name: ''
+		    };
+		  });
+		};
   });
