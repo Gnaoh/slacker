@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-  .module('slackerApp', [
+  .module('slackerChat', [
     'firebase',
     'angular-md5',
     'ui.router'
@@ -18,7 +18,16 @@ angular
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: 'home/home.html'
+        templateUrl: 'home/home.html',
+        resolve: {
+          requireNoAuth: function($state, Auth){
+            return Auth.$requireAuth().then(function(auth){
+              $state.go('channels');
+            }, function(error){
+              return;
+            });
+          }
+        }
       })
       .state('login', {
         url: '/login',
@@ -64,7 +73,35 @@ angular
             });
           }
         }
-      });
+      })
+      .state('channels', {
+        url: '/channels',
+        controller: 'ChannelsCtrl as channelsCtrl',
+        templateUrl: 'channels/index.html',
+        resolve: { //We're resolving two dependencies here: channels, which is promising our $firebaseArray of channels, and profile, which is a lot like the profile dependency in the profile state. We're making sure that the display name is set, otherwise reroute to the home state.
+          channels: function (Channels){
+            return Channels.$loaded();
+          },
+          profile: function ($state, Auth, Users){
+            return Auth.$requireAuth().then(function(auth){
+              return Users.getProfile(auth.uid).$loaded().then(function (profile){
+                if(profile.displayName){
+                  return profile;
+                } else {
+                  $state.go('profile');
+                }
+              });
+            }, function(error){
+              $state.go('home');
+            });
+          }
+        }
+      })
+      .state('channels.create', {
+        url: '/create',
+        templateUrl: 'channels/create.html',
+        controller: 'ChannelsCtrl as channelsCtrl'
+      })
     $urlRouterProvider.otherwise('/');
   })
   .constant('FirebaseUrl', 'https://slackerapp.firebaseio.com/');

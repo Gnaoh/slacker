@@ -1,4 +1,4 @@
-Slacker - a messenging app create w/ angular and firebase
+Slacker Chat - a messenging app create w/ angular and firebase
 
 ## Build & development
 

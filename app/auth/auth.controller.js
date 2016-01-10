@@ -1,4 +1,4 @@
-angular.module('slackerApp') //controller to use with our login and registration forms.
+angular.module('slackerChat') //controller to use with our login and registration forms.
 	.controller('AuthCtrl', function(Auth, $state){
 		var authCtrl = this;
 
